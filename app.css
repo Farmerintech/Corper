@@ -121,6 +121,11 @@ button{
   border-radius:10px;
   display:none
 }
+
+  p{
+    text-align:center;
+  }
+
 .data{
   display:flex;
   flex-direction: column;

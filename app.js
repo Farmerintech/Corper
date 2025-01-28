@@ -271,7 +271,7 @@ class Corper {
 
   fetchCorper() {
     return ` 
-      <p>State: ${this.state}</p> 
+      <p class="data-p">State: ${this.state}</p> 
       <p>Batch: ${this.batch}</p> 
       <p>Year: ${this.year}</p> 
       <p>Platoon: ${this.platoon}</p> 
@@ -280,61 +280,57 @@ class Corper {
 }
 
 
-
+const btn = document.getElementById('download-btn');
 const fetch = document.getElementById("fetch");
 const stateCode = document.getElementById("statecode");
-
-fetch.addEventListener('click', ()=>{
+const result = document.getElementById('res');
+let found = false
+let correctFormat = false
+fetch.addEventListener('click', () => {
   const inputData = stateCode.value;
-  const partinputData=inputData.split("/");
-  //console.log(partinputData[0] === NYSCData[0].state.code)
-  
-  NYSCData.forEach(data =>{
-    if(data.state.code===partinputData[0] ){
-    const str = data.state.code === partinputData[0] && partinputData[1];
-    const splitStr = str.split(/(\d+)/);
-    //console.log(splitStr); // Output: ["", "24", "c"]
-    const state = data.state.name
-    const year = `20${splitStr[1]}`
-    const batch = splitStr[2];
-    const platoon = partinputData[2] % 10
-    
-    //console.log(state, year, batch, platoon);
-    
-    const result = document.getElementById("res");
-    var btn = document.getElementById('download-btn');
-
-    const myData = new Corper(state, batch, platoon, year);
+  const partinputData = inputData.split("/");
+  const result = document.getElementById("res");
+ 
+  if (inputData.length < 11) {
     result.style.display = "block";
-    btn.style.display = "block"
-    console.log(myData.fetchCorper())
-    result.innerHTML = `
-    <div class="data">
-      <div class="res-img">
-         <img src="logo.jpg" class="logo2"/>
-      </div>
-      <div class="p">
-        ${myData.fetchCorper()}
-      </div>
-    </div>
-    
-    `
-}
-    //return data state.name;
-    //console.log('could not verify your state code')
-  })
-})
-
-
-let btn = document.getElementById('download-btn');
-
-let node = document.getElementById('res'); // Define node
-//let options = { quality: 0.95 };
-let options = {
-    quality: 0.99,
-    width: 500,
-    height: 500,
-};
+    result.innerHTML += `Incorrect data entry, hence we could not confirm your deployment data`;
+    return;
+  }
+ 
+const btn = document.getElementById('download-btn');
+  NYSCData.forEach(data => {
+    if (data.state.code === partinputData[0] && inputData.length === 11) {
+      const str = data.state.code === partinputData[0] && partinputData[1];
+      const splitStr = str.split(/(\d+)/);
+      const state = data.state.name;
+      const year = `20${splitStr[1]}`;
+      const batch = splitStr[2];
+      const platoon = partinputData[2] % 10;
+      
+      const cls = document.getElementById('close');
+      const myData = new Corper(state, batch, platoon, year);
+      result.style.display = "block";
+      btn.style.display = "block";
+      cls.style.display = "block";
+      cls.addEventListener("click", () => {
+        result.innerHTML = "";
+        result.style.display = "none";
+        cls.style.display = "none";
+      });
+      console.log(myData.fetchCorper());
+      result.innerHTML += `
+        <div class="data">
+          <div class="res-img">
+            <img src="logo.jpg" class="logo2" />
+          </div>
+          <div class="p">
+            ${myData.fetchCorper()}
+          </div>
+        </div>
+      `;
+    }
+  });
+});
 
 
 
@@ -351,3 +347,4 @@ btn.onclick = function() {
       URL.revokeObjectURL(url);
     });
 };
+      

@@ -294,6 +294,13 @@ fetch.addEventListener('click', () => {
   if (inputData.length < 11) {
     result.style.display = "block";
     result.innerHTML += `Incorrect data entry, hence we could not confirm your deployment data`;
+    const cls = document.getElementById('close');
+    cls.style.display = "block";
+      cls.addEventListener("click", () => {
+        result.innerHTML = "";
+        result.style.display = "none";
+        cls.style.display = "none";
+      });
     return;
   }
  
@@ -347,4 +354,4 @@ btn.onclick = function() {
       URL.revokeObjectURL(url);
     });
 };
-      
+                           

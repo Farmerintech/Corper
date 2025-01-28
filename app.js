@@ -345,8 +345,8 @@ const btn = document.getElementById('download-btn');
 const node =document.getElementById("res")
 let options = {
     quality: 0.99,
-    width: 450,
-    height:450,
+    width: window.screen > 560 ? 1000: 500,
+    height:window.screen > 560 ? 1000: 500,,
 };
 btn.onclick = function() {
   domtoimage.toBlob(node, options)

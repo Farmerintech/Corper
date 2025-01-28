@@ -342,7 +342,7 @@ const btn = document.getElementById('download-btn');
 
 
 
-const node =document.getElementById("result")
+const node =document.getElementById("res")
 btn.onclick = function() {
   domtoimage.toBlob(node, options)
     .then(function(blob) {

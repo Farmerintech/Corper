@@ -343,6 +343,11 @@ const btn = document.getElementById('download-btn');
 
 
 const node =document.getElementById("res")
+let options = {
+    quality: 0.99,
+    width: 450,
+    height:450,
+};
 btn.onclick = function() {
   domtoimage.toBlob(node, options)
     .then(function(blob) {
